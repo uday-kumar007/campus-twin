@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilities | CampusTwin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🏫 CampusTwin</h2>
+    <p class="side-label">MAIN MENU</p>
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="classrooms.html">🏫 Classrooms</a>
+    <a class="active" href="utilities.html">⚡ Utilities</a>
+    <a href="maintenance.html">🔧 Maintenance</a>
+    <a href="reports.html">📊 Reports</a>
+    <div class="sidebar-bottom">● System Online</div>
+</div>
+
+<div class="main-content">
+    <header>
+        <div>
+            <h1>Utilities Monitoring</h1>
+            <p>Track campus electricity and water consumption.</p>
+        </div>
+        <div class="admin">👤 Administrator</div>
+    </header>
+
+    <section class="cards">
+        <div class="card orange">
+            <h3>⚡ Electricity</h3>
+            <h1>486 kWh</h1>
+            <p>Today's usage</p>
+        </div>
+
+        <div class="card blue">
+            <h3>💧 Water</h3>
+            <h1>12,840 L</h1>
+            <p>Today's usage</p>
+        </div>
+
+        <div class="card green">
+            <h3>🌱 Energy Saving</h3>
+            <h1>8.1%</h1>
+            <p>Compared to previous day</p>
+        </div>
+    </section>
+
+    <div class="panel">
+        <h2>⚡ Electricity Consumption</h2>
+        <p>Building-wise electricity usage</p>
+
+        <div class="usage">
+            <label>Academic Block A - 142 kWh</label>
+            <div class="progress"><div style="width:85%"></div></div>
+
+            <label>Academic Block B - 108 kWh</label>
+            <div class="progress"><div style="width:65%"></div></div>
+
+            <label>Computer Lab - 167 kWh</label>
+            <div class="progress"><div style="width:100%"></div></div>
+
+            <label>Library - 69 kWh</label>
+            <div class="progress"><div style="width:41%"></div></div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>💧 Water Consumption</h2>
+
+        <div class="usage">
+            <label>Academic Block A - 3100 L</label>
+            <div class="progress water-progress"><div style="width:70%"></div></div>
+
+            <label>Academic Block B - 2300 L</label>
+            <div class="progress water-progress"><div style="width:52%"></div></div>
+
+            <label>Hostel - 5740 L</label>
+            <div class="progress water-progress"><div style="width:100%"></div></div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>🚨 Utility Alerts</h2>
+        <div class="alert warning">⚡ High electricity usage in Computer Lab.</div>
+        <div class="alert danger">💧 Check possible water leakage in Block B.</div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

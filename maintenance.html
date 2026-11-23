@@ -1,0 +1,1215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VEMU | Maintenance Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f7ff;
+            color: #263650;
+        }
+
+        .main-content {
+            margin-left: 255px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 255px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 25px 18px;
+            background: linear-gradient(160deg, #102347, #1746a2, #2563eb);
+            color: white;
+            z-index: 10;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .college-name {
+            text-align: center;
+            font-size: 11px;
+            color: #dce8ff;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px;
+            margin: 8px 0;
+            border-radius: 9px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(5px);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            color: #102347;
+            margin-bottom: 5px;
+            font-size: 27px;
+        }
+
+        .topbar p {
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .hero {
+            padding: 28px;
+            margin-bottom: 25px;
+            color: white;
+            border-radius: 18px;
+            background:
+                linear-gradient(90deg, rgba(8,28,68,.92), rgba(8,28,68,.35)),
+                url("assets/vemu-campus.jpg") center / cover;
+            animation: fadeUp .7s ease;
+        }
+
+        .hero h2 {
+            font-size: 27px;
+            margin: 0 0 10px;
+        }
+
+        .hero p {
+            line-height: 1.6;
+            max-width: 600px;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            padding: 22px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(23,70,162,.08);
+            border: 1px solid #e7edfa;
+            transition: .3s;
+            animation: fadeUp .7s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .stat-card h3 {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .stat-card h2 {
+            font-size: 30px;
+            color: #1746a2;
+            margin: 10px 0 0;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(23,70,162,.07);
+            border: 1px solid #e7edfa;
+            animation: fadeUp .7s ease;
+        }
+
+        .panel h2 {
+            font-size: 20px;
+            color: #102347;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce4f2;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+            background: #fbfcff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 85px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(120deg, #1746a2, #2563eb);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37,99,235,.25);
+        }
+
+        .btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar input,
+        .toolbar select {
+            max-width: 250px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            background: #edf3ff;
+            color: #1746a2;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #edf0f6;
+            font-size: 13px;
+        }
+
+        tbody tr:hover {
+            background: #f5f8ff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .resolved {
+            background: #dcfce9;
+            color: #087849;
+        }
+
+        .high {
+            background: #fee2e2;
+            color: #b42323;
+        }
+
+        .medium {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .low {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .action-btn {
+            padding: 8px 11px;
+            margin: 3px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .resolve-btn {
+            background: #16a36a;
+        }
+
+        .delete-btn {
+            background: #e34b4b;
+        }
+
+        .disabled-btn {
+            background: #a0aec0;
+            cursor: not-allowed;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #718096;
+        }
+
+        .notification {
+            display: none;
+            padding: 13px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .notification.success {
+            display: block;
+            background: #dcfce9;
+            color: #087849;
+        }
+
+        .notification.error {
+            display: block;
+            background: #fee2e2;
+            color: #b42323;
+        }
+
+        footer {
+            text-align: center;
+            color: #718096;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media(max-width: 850px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 18px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+        }
+
+        @media(max-width: 500px) {
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .toolbar input,
+            .toolbar select {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <h2>CampusTwin</h2>
+
+        <p class="college-name">
+            VEMU INSTITUTE OF TECHNOLOGY
+        </p>
+
+        <a href="index.html">🏠 Dashboard</a>
+
+        <a href="classrooms.html">🏫 Classrooms</a>
+
+        <a href="utilities.html">⚡ Utilities</a>
+
+        <a href="maintenance.html" class="active">
+            🔧 Maintenance
+        </a>
+
+        <a href="reports.html">📊 Reports</a>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div>
+                <h1>Maintenance Management</h1>
+
+                <p>
+                    VEMU Institute of Technology |
+                    Campus Facility Monitoring
+                </p>
+            </div>
+
+            <div>
+                <strong id="currentDate"></strong>
+                <p id="currentTime"></p>
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <h2>Campus Maintenance Center 🔧</h2>
+
+            <p>
+                Manage classroom repairs, electrical issues,
+                water leakage, laboratory equipment and other
+                campus maintenance complaints in one place.
+            </p>
+
+        </section>
+
+
+        <!-- NOTIFICATION -->
+
+        <div id="notification" class="notification"
+             role="status" aria-live="polite"></div>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <h3>Total Complaints</h3>
+                <h2 id="totalTickets">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending Complaints</h3>
+                <h2 id="pendingTickets" style="color:#f59e0b;">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <h3>Resolved Complaints</h3>
+                <h2 id="resolvedTickets" style="color:#16a36a;">0</h2>
+            </div>
+
+        </section>
+
+
+        <!-- ADD COMPLAINT FORM -->
+
+        <section class="panel">
+
+            <h2>➕ Register New Maintenance Complaint</h2>
+
+            <form id="maintenanceForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="problem">
+                            Complaint Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="problem"
+                            placeholder="Example: Fan not working"
+                            maxlength="80"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="location">
+                            Building / Location
+                        </label>
+
+                        <select id="location" required>
+
+                            <option value="">Select Location</option>
+
+                            <option value="A Block">A Block</option>
+
+                            <option value="B Block">B Block</option>
+
+                            <option value="C Block">C Block</option>
+
+                            <option value="Computer Laboratory">
+                                Computer Laboratory
+                            </option>
+
+                            <option value="Library">Library</option>
+
+                            <option value="Hostel">Hostel</option>
+
+                            <option value="Canteen">Canteen</option>
+
+                            <option value="Other">Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="category">
+                            Maintenance Category
+                        </label>
+
+                        <select id="category" required>
+
+                            <option value="">Select Category</option>
+
+                            <option value="Electrical">Electrical</option>
+
+                            <option value="Plumbing">Plumbing</option>
+
+                            <option value="Furniture">Furniture</option>
+
+                            <option value="Computer / IT">Computer / IT</option>
+
+                            <option value="Cleaning">Cleaning</option>
+
+                            <option value="Other">Other</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="priority">
+                            Priority
+                        </label>
+
+                        <select id="priority" required>
+
+                            <option value="">Select Priority</option>
+
+                            <option value="High">High</option>
+
+                            <option value="Medium">Medium</option>
+
+                            <option value="Low">Low</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label for="description">
+                            Complaint Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            placeholder="Describe the maintenance problem..."
+                            maxlength="500"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <button type="submit" class="btn">
+                            Submit Complaint
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- MAINTENANCE TABLE -->
+
+        <section class="panel">
+
+            <h2>📋 Maintenance Complaint Records</h2>
+
+            <div class="toolbar">
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search complaints..."
+                >
+
+                <select id="statusFilter">
+
+                    <option value="All">All Status</option>
+
+                    <option value="Pending">Pending</option>
+
+                    <option value="Resolved">Resolved</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Complaint</th>
+                            <th>Location</th>
+                            <th>Category</th>
+                            <th>Priority</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="ticketTable">
+
+                        <!-- JavaScript adds rows here -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p id="emptyMessage" class="empty-message"
+               style="display:none;">
+                No maintenance complaints found.
+            </p>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+            © 2026 VEMU Institute of Technology |
+            Smart Campus Digital Twin
+        </footer>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        // =====================================
+        // STORAGE
+        // =====================================
+
+        const STORAGE_KEY = "vemuMaintenanceTickets";
+
+        let tickets = loadTickets();
+
+
+        function loadTickets() {
+
+            try {
+
+                const saved = localStorage.getItem(STORAGE_KEY);
+
+                if (saved !== null) {
+
+                    const parsed = JSON.parse(saved);
+
+                    return Array.isArray(parsed) ? parsed : [];
+
+                }
+
+            } catch (error) {
+
+                console.error("Could not load saved tickets:", error);
+
+            }
+
+            // Initial sample complaints for first-time users
+            return [
+                {
+                    id: 1,
+                    problem: "Classroom fan not working",
+                    location: "A Block",
+                    category: "Electrical",
+                    priority: "High",
+                    description: "Ceiling fan needs repair.",
+                    date: new Date().toLocaleDateString("en-IN"),
+                    status: "Pending"
+                },
+                {
+                    id: 2,
+                    problem: "Water leakage",
+                    location: "Hostel",
+                    category: "Plumbing",
+                    priority: "Medium",
+                    description: "Water leakage near wash area.",
+                    date: new Date().toLocaleDateString("en-IN"),
+                    status: "Pending"
+                },
+                {
+                    id: 3,
+                    problem: "Computer system issue",
+                    location: "Computer Laboratory",
+                    category: "Computer / IT",
+                    priority: "Low",
+                    description: "One computer requires inspection.",
+                    date: new Date().toLocaleDateString("en-IN"),
+                    status: "Resolved"
+                }
+            ];
+
+        }
+
+
+        function saveTickets() {
+
+            try {
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(tickets)
+                );
+
+            } catch (error) {
+
+                showNotification(
+                    "Could not save data in this browser.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // =====================================
+        // NOTIFICATIONS
+        // =====================================
+
+        let notificationTimer;
+
+        function showNotification(message, type) {
+
+            const notification =
+                document.getElementById("notification");
+
+            notification.textContent = message;
+
+            notification.className =
+                "notification " + type;
+
+            clearTimeout(notificationTimer);
+
+            notificationTimer = setTimeout(() => {
+
+                notification.className = "notification";
+
+            }, 3500);
+
+        }
+
+
+        // =====================================
+        // ADD NEW COMPLAINT
+        // =====================================
+
+        const maintenanceForm =
+            document.getElementById("maintenanceForm");
+
+
+        maintenanceForm.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const problem =
+                document.getElementById("problem").value.trim();
+
+            const location =
+                document.getElementById("location").value;
+
+            const category =
+                document.getElementById("category").value;
+
+            const priority =
+                document.getElementById("priority").value;
+
+            const description =
+                document.getElementById("description").value.trim();
+
+
+            if (
+                !problem ||
+                !location ||
+                !category ||
+                !priority ||
+                !description
+            ) {
+
+                showNotification(
+                    "Please complete all fields.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const newTicket = {
+
+                id: Date.now(),
+
+                problem: problem,
+
+                location: location,
+
+                category: category,
+
+                priority: priority,
+
+                description: description,
+
+                date: new Date().toLocaleDateString("en-IN"),
+
+                status: "Pending"
+
+            };
+
+
+            tickets.unshift(newTicket);
+
+            saveTickets();
+
+            renderTickets();
+
+            maintenanceForm.reset();
+
+            showNotification(
+                "Maintenance complaint submitted successfully!",
+                "success"
+            );
+
+        });
+
+
+        // =====================================
+        // DISPLAY TICKETS
+        // =====================================
+
+        function renderTickets() {
+
+            const table =
+                document.getElementById("ticketTable");
+
+            const search =
+                document.getElementById("searchInput")
+                    .value.toLowerCase().trim();
+
+            const filter =
+                document.getElementById("statusFilter").value;
+
+
+            table.innerHTML = "";
+
+
+            const filteredTickets = tickets.filter(ticket => {
+
+                const matchesSearch = [
+
+                    ticket.id,
+                    ticket.problem,
+                    ticket.location,
+                    ticket.category,
+                    ticket.priority,
+                    ticket.description
+
+                ].some(value =>
+                    String(value).toLowerCase().includes(search)
+                );
+
+
+                const matchesStatus =
+                    filter === "All" || ticket.status === filter;
+
+
+                return matchesSearch && matchesStatus;
+
+            });
+
+
+            filteredTickets.forEach(ticket => {
+
+                const row = document.createElement("tr");
+
+
+                const idCell = document.createElement("td");
+                idCell.textContent = "#" + ticket.id;
+
+                const problemCell = document.createElement("td");
+                problemCell.textContent = ticket.problem;
+
+                const locationCell = document.createElement("td");
+                locationCell.textContent = ticket.location;
+
+                const categoryCell = document.createElement("td");
+                categoryCell.textContent = ticket.category;
+
+                const priorityCell = document.createElement("td");
+
+                const priorityBadge = document.createElement("span");
+
+                priorityBadge.className =
+                    "badge " + ticket.priority.toLowerCase();
+
+                priorityBadge.textContent = ticket.priority;
+
+                priorityCell.appendChild(priorityBadge);
+
+
+                const dateCell = document.createElement("td");
+                dateCell.textContent = ticket.date;
+
+
+                const statusCell = document.createElement("td");
+
+                const statusBadge = document.createElement("span");
+
+                statusBadge.className =
+                    "badge " + ticket.status.toLowerCase();
+
+                statusBadge.textContent = ticket.status;
+
+                statusCell.appendChild(statusBadge);
+
+
+                const actionCell = document.createElement("td");
+
+
+                if (ticket.status === "Pending") {
+
+                    const resolveButton =
+                        document.createElement("button");
+
+                    resolveButton.textContent = "Resolve";
+
+                    resolveButton.className =
+                        "action-btn resolve-btn";
+
+                    resolveButton.addEventListener("click", () => {
+
+                        resolveTicket(ticket.id);
+
+                    });
+
+                    actionCell.appendChild(resolveButton);
+
+                } else {
+
+                    const resolvedLabel =
+                        document.createElement("span");
+
+                    resolvedLabel.className =
+                        "badge resolved";
+
+                    resolvedLabel.textContent = "Completed";
+
+                    actionCell.appendChild(resolvedLabel);
+
+                }
+
+
+                const deleteButton =
+                    document.createElement("button");
+
+                deleteButton.textContent = "Delete";
+
+                deleteButton.className =
+                    "action-btn delete-btn";
+
+                deleteButton.addEventListener("click", () => {
+
+                    deleteTicket(ticket.id);
+
+                });
+
+                actionCell.appendChild(deleteButton);
+
+
+                row.append(
+                    idCell,
+                    problemCell,
+                    locationCell,
+                    categoryCell,
+                    priorityCell,
+                    dateCell,
+                    statusCell,
+                    actionCell
+                );
+
+                table.appendChild(row);
+
+            });
+
+
+            document.getElementById("emptyMessage").style.display =
+                filteredTickets.length === 0 ? "block" : "none";
+
+
+            updateCounters();
+
+        }
+
+
+        // =====================================
+        // RESOLVE COMPLAINT
+        // =====================================
+
+        function resolveTicket(id) {
+
+            const ticket = tickets.find(item => item.id === id);
+
+            if (!ticket || ticket.status === "Resolved") {
+                return;
+            }
+
+            ticket.status = "Resolved";
+
+            saveTickets();
+
+            renderTickets();
+
+            showNotification(
+                "Complaint resolved successfully!",
+                "success"
+            );
+
+        }
+
+
+        // =====================================
+        // DELETE COMPLAINT
+        // =====================================
+
+        function deleteTicket(id) {
+
+            const confirmDelete =
+                confirm("Are you sure you want to delete this complaint?");
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            tickets = tickets.filter(ticket => ticket.id !== id);
+
+            saveTickets();
+
+            renderTickets();
+
+            showNotification(
+                "Complaint deleted successfully!",
+                "success"
+            );
+
+        }
+
+
+        // =====================================
+        // UPDATE DASHBOARD COUNTERS
+        // =====================================
+
+        function updateCounters() {
+
+            const total = tickets.length;
+
+            const pending = tickets.filter(
+                ticket => ticket.status === "Pending"
+            ).length;
+
+            const resolved = tickets.filter(
+                ticket => ticket.status === "Resolved"
+            ).length;
+
+
+            document.getElementById("totalTickets")
+                .textContent = total;
+
+            document.getElementById("pendingTickets")
+                .textContent = pending;
+
+            document.getElementById("resolvedTickets")
+                .textContent = resolved;
+
+        }
+
+
+        // =====================================
+        // SEARCH AND FILTER
+        // =====================================
+
+        document.getElementById("searchInput")
+            .addEventListener("input", renderTickets);
+
+
+        document.getElementById("statusFilter")
+            .addEventListener("change", renderTickets);
+
+
+        // =====================================
+        // DATE AND TIME
+        // =====================================
+
+        function updateDateTime() {
+
+            const now = new Date();
+
+            document.getElementById("currentDate")
+                .textContent = now.toLocaleDateString("en-IN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                });
+
+            document.getElementById("currentTime")
+                .textContent = now.toLocaleTimeString("en-IN");
+
+        }
+
+
+        // =====================================
+        // INITIALIZE PAGE
+        // =====================================
+
+        saveTickets();
+
+        renderTickets();
+
+        updateDateTime();
+
+        setInterval(updateDateTime, 1000);
+
+    </script>
+
+</body>
+</html>

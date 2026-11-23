@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classrooms | CampusTwin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>🏫 CampusTwin</h2>
+    <p class="side-label">MAIN MENU</p>
+    <a href="index.html">🏠 Dashboard</a>
+    <a class="active" href="classrooms.html">🏫 Classrooms</a>
+    <a href="utilities.html">⚡ Utilities</a>
+    <a href="maintenance.html">🔧 Maintenance</a>
+    <a href="reports.html">📊 Reports</a>
+    <div class="sidebar-bottom">● System Online</div>
+</div>
+
+<div class="main-content">
+    <header>
+        <div>
+            <h1>Classroom Monitoring</h1>
+            <p>Monitor classroom occupancy and availability.</p>
+        </div>
+        <div class="admin">👤 Administrator</div>
+    </header>
+
+    <section class="cards">
+        <div class="card purple">
+            <h3>Total Classrooms</h3>
+            <h1>32</h1>
+        </div>
+        <div class="card green">
+            <h3>Occupied Rooms</h3>
+            <h1>24</h1>
+        </div>
+        <div class="card blue">
+            <h3>Available Rooms</h3>
+            <h1>08</h1>
+        </div>
+    </section>
+
+    <div class="panel">
+        <h2>🏫 Classroom Status</h2>
+
+        <input type="text" id="roomSearch"
+        placeholder="Search classroom..."
+        oninput="filterRooms()">
+
+        <div class="table-container">
+            <table id="roomTable">
+                <tr>
+                    <th>Room</th>
+                    <th>Capacity</th>
+                    <th>Students</th>
+                    <th>Occupancy</th>
+                    <th>Status</th>
+                </tr>
+
+                <tr>
+                    <td>Room A-101</td>
+                    <td>40</td>
+                    <td>32</td>
+                    <td>80%</td>
+                    <td><span class="status occupied">Occupied</span></td>
+                </tr>
+
+                <tr>
+                    <td>Room A-204</td>
+                    <td>50</td>
+                    <td>46</td>
+                    <td>92%</td>
+                    <td><span class="status occupied">Occupied</span></td>
+                </tr>
+
+                <tr>
+                    <td>Room B-102</td>
+                    <td>35</td>
+                    <td>0</td>
+                    <td>0%</td>
+                    <td><span class="status available">Available</span></td>
+                </tr>
+
+                <tr>
+                    <td>Computer Lab 01</td>
+                    <td>30</td>
+                    <td>28</td>
+                    <td>93%</td>
+                    <td><span class="status occupied">Occupied</span></td>
+                </tr>
+
+                <tr>
+                    <td>Seminar Hall</td>
+                    <td>120</td>
+                    <td>0</td>
+                    <td>0%</td>
+                    <td><span class="status available">Available</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>💡 Recommendation</h2>
+        Room A-204 is nearly full. Administrators can move additional students to an available classroom.
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

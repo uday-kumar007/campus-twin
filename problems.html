@@ -1,0 +1,1140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEMU | Raise a Problem</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f7fc;
+    color: #263650;
+}
+
+:root {
+    --blue: #1746a2;
+    --navy: #102b59;
+    --border: #e5ebf5;
+    --muted: #718096;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    width: 240px;
+    height: 100vh;
+    background: white;
+    padding: 22px 16px;
+    border-right: 1px solid var(--border);
+}
+
+.brand {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.brand img {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
+}
+
+.brand h2 {
+    color: var(--blue);
+    font-size: 18px;
+}
+
+.brand p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.menu-title {
+    margin: 25px 10px 10px;
+    font-size: 10px;
+    color: #94a3b8;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 13px;
+    margin: 6px 0;
+    border-radius: 9px;
+    color: #52627a;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #edf4ff;
+    color: var(--blue);
+    font-weight: bold;
+    transform: translateX(4px);
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 240px;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 15px;
+}
+
+.header h1 {
+    font-size: 27px;
+    color: var(--navy);
+}
+
+.header p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.date {
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+}
+
+/* INTRO */
+
+.intro {
+    padding: 27px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #1746a2, #4388dc);
+    color: white;
+    margin-bottom: 25px;
+    animation: fadeUp .6s ease;
+}
+
+.intro h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.intro p {
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* STATISTICS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 19px;
+    box-shadow: 0 5px 15px #17376f08;
+    transition: .3s;
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+}
+
+.stat p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.stat h2 {
+    color: var(--navy);
+    font-size: 27px;
+    margin-top: 10px;
+}
+
+/* FORM AND PANEL */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 23px;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px #17376f08;
+    margin-bottom: 22px;
+    animation: fadeUp .7s ease;
+}
+
+.panel h2 {
+    color: var(--navy);
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 22px;
+}
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #40516b;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce3ee;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    background: #fbfcff;
+    font-family: inherit;
+    color: #263650;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #4388dc;
+    box-shadow: 0 0 0 3px #4388dc18;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.file-info {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+#imagePreview {
+    max-width: 100%;
+    max-height: 160px;
+    display: none;
+    margin-top: 10px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.submit-btn {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.submit-btn:hover {
+    background: #103477;
+    transform: translateY(-2px);
+}
+
+/* TICKET LIST */
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.toolbar input,
+.toolbar select {
+    flex: 1;
+    min-width: 0;
+}
+
+.ticket {
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: #fff;
+    transition: .2s;
+}
+
+.ticket:hover {
+    box-shadow: 0 6px 16px #17376f10;
+}
+
+.ticket-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 9px;
+}
+
+.ticket h3 {
+    color: var(--navy);
+    font-size: 14px;
+}
+
+.ticket p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 5px 0;
+    overflow-wrap: anywhere;
+}
+
+.ticket img {
+    max-width: 130px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 7px;
+    margin-top: 8px;
+    display: block;
+}
+
+.ticket-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.ticket-actions select {
+    width: auto;
+    min-width: 140px;
+    padding: 8px;
+}
+
+.delete-btn {
+    background: #fff0f0;
+    color: #d62828;
+    border: none;
+    padding: 9px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.badge {
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.Pending {
+    background: #fff4dc;
+    color: #a36a00;
+}
+
+.In-Progress {
+    background: #e9f2ff;
+    color: #1755a5;
+}
+
+.Resolved {
+    background: #e7f9ef;
+    color: #16804d;
+}
+
+.empty {
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.message {
+    display: none;
+    padding: 13px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    background: #e7f9ef;
+    color: #16804d;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:800px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .brand img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .sidebar a {
+        display: inline-block;
+        padding: 10px;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+    }
+}
+
+@media(max-width:520px) {
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .toolbar {
+        flex-direction: column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        <img src="./vemu-logo.jpg" alt="VEMU Logo">
+        <h2>VEMU CAMPUS</h2>
+        <p>INSTITUTE OF TECHNOLOGY</p>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+
+    <nav>
+        <a href="index.html">🏠 Dashboard</a>
+        <a href="classrooms.html">🏫 Classrooms</a>
+        <a href="utilities.html">⚡ Utilities</a>
+        <a href="maintenance.html">🔧 Maintenance</a>
+        <a href="problems.html" class="active">📝 Raise a Problem</a>
+        <a href="reports.html">📊 Reports</a>
+    </nav>
+
+</aside>
+
+
+<main class="main">
+
+    <header class="header">
+        <div>
+            <h1>Problem Management</h1>
+            <p>VEMU Institute of Technology | Campus Complaint Portal</p>
+        </div>
+
+        <div class="date" id="today"></div>
+    </header>
+
+
+    <!-- INTRODUCTION -->
+
+    <section class="intro">
+        <h2>🛠️ Campus Problem Reporting System</h2>
+
+        <p>
+            Facing an issue in the campus? Report it here.
+            Submit maintenance requests, report damaged equipment,
+            water leakage, electricity issues and other campus problems.
+            Track your complaint until it is resolved.
+        </p>
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <p>📋 Total Complaints</p>
+            <h2 id="totalCount">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>🟡 Pending</p>
+            <h2 id="pendingCount">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>🔵 In Progress</p>
+            <h2 id="progressCount">0</h2>
+        </div>
+
+        <div class="stat">
+            <p>🟢 Resolved</p>
+            <h2 id="resolvedCount">0</h2>
+        </div>
+
+    </section>
+
+
+    <div class="content-grid">
+
+        <!-- PROBLEM FORM -->
+
+        <section class="panel">
+
+            <h2>📝 Raise a New Problem</h2>
+
+            <p class="subtitle">
+                Fill in the details to register your complaint.
+            </p>
+
+            <div class="message" id="successMessage">
+                Complaint submitted successfully!
+            </div>
+
+            <form id="problemForm">
+
+                <div class="form-group">
+                    <label for="personName">Your Name *</label>
+                    <input
+                        type="text"
+                        id="personName"
+                        placeholder="Enter your name"
+                        maxlength="60"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="personRole">You are a *</label>
+
+                    <select id="personRole" required>
+                        <option value="">Select role</option>
+                        <option>Student</option>
+                        <option>Faculty</option>
+                        <option>Staff</option>
+                        <option>Administrator</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="category">Problem Category *</label>
+
+                        <select id="category" required>
+                            <option value="">Select category</option>
+                            <option>Electricity</option>
+                            <option>Water Leakage</option>
+                            <option>Classroom</option>
+                            <option>Computer / Lab</option>
+                            <option>Furniture</option>
+                            <option>Internet / Wi-Fi</option>
+                            <option>Washroom</option>
+                            <option>Cleaning</option>
+                            <option>Transport</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority *</label>
+
+                        <select id="priority" required>
+                            <option value="">Select priority</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                            <option>Urgent</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Problem Location *</label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="Example: Block A, Room 204"
+                        maxlength="100"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Problem Description *</label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Explain the problem clearly..."
+                        maxlength="1000"
+                        required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Upload Problem Image (Optional)</label>
+
+                    <input
+                        type="file"
+                        id="photo"
+                        accept="image/png,image/jpeg,image/webp">
+
+                    <p class="file-info">
+                        Maximum image size: 1 MB. JPG, PNG or WEBP.
+                    </p>
+
+                    <img id="imagePreview" alt="Problem image preview">
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Submit Complaint →
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- COMPLAINT TRACKING -->
+
+        <section class="panel">
+
+            <h2>📌 Track Your Complaints</h2>
+
+            <p class="subtitle">
+                Search and monitor submitted campus problems.
+            </p>
+
+            <div class="toolbar">
+
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search ticket ID or location...">
+
+                <select id="statusFilter">
+                    <option value="All">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+
+            </div>
+
+            <div id="ticketList"></div>
+
+        </section>
+
+    </div>
+
+
+    <footer>
+        © 2026 VEMU Institute of Technology
+        <br>
+        Smart Campus Digital Twin Management System
+    </footer>
+
+</main>
+
+
+<script>
+
+// STORAGE KEY
+
+const STORAGE_KEY = "vemuCampusProblems";
+
+let complaints = loadComplaints();
+
+
+// LOAD SAVED COMPLAINTS
+
+function loadComplaints() {
+
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return Array.isArray(saved) ? saved : [];
+    } catch (error) {
+        return [];
+    }
+
+}
+
+
+// SAVE COMPLAINTS
+
+function saveComplaints() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(complaints)
+    );
+
+}
+
+
+// TODAY'S DATE
+
+document.getElementById("today").textContent =
+    new Date().toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
+
+
+// IMAGE PREVIEW
+
+const photoInput = document.getElementById("photo");
+const imagePreview = document.getElementById("imagePreview");
+
+photoInput.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    imagePreview.style.display = "none";
+    imagePreview.removeAttribute("src");
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+        alert("Please select a valid image.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 1024 * 1024) {
+        alert("Image must be smaller than 1 MB.");
+        this.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        imagePreview.src = event.target.result;
+        imagePreview.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+
+// GENERATE TICKET ID
+
+function generateTicketID() {
+
+    return "VEMU-" +
+        Date.now().toString().slice(-8);
+
+}
+
+
+// SUBMIT COMPLAINT
+
+document.getElementById("problemForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const submitButton =
+        this.querySelector(".submit-btn");
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting...";
+
+    try {
+
+        const file = photoInput.files[0];
+
+        let photoData = "";
+
+        if (file) {
+
+            if (file.size > 1024 * 1024) {
+                throw new Error("Image must be smaller than 1 MB.");
+            }
+
+            photoData = await new Promise((resolve, reject) => {
+
+                const reader = new FileReader();
+
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(
+                    new Error("Could not read the selected image.")
+                );
+
+                reader.readAsDataURL(file);
+
+            });
+
+        }
+
+        const complaint = {
+
+            id: generateTicketID(),
+
+            name: document.getElementById("personName").value.trim(),
+
+            role: document.getElementById("personRole").value,
+
+            category: document.getElementById("category").value,
+
+            priority: document.getElementById("priority").value,
+
+            location: document.getElementById("location").value.trim(),
+
+            description: document.getElementById("description").value.trim(),
+
+            photo: photoData,
+
+            status: "Pending",
+
+            date: new Date().toLocaleString("en-IN")
+
+        };
+
+        if (
+            !complaint.name ||
+            !complaint.role ||
+            !complaint.category ||
+            !complaint.priority ||
+            !complaint.location ||
+            !complaint.description
+        ) {
+            throw new Error("Please fill in all required fields.");
+        }
+
+        complaints.unshift(complaint);
+
+        saveComplaints();
+
+        renderTickets();
+        updateStatistics();
+
+        this.reset();
+
+        imagePreview.src = "";
+        imagePreview.style.display = "none";
+
+        const message =
+            document.getElementById("successMessage");
+
+        message.textContent =
+            "Complaint submitted successfully! Ticket ID: " +
+            complaint.id;
+
+        message.style.display = "block";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+
+        alert(
+            error.message ||
+            "Unable to save complaint. Browser storage may be full."
+        );
+
+    } finally {
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit Complaint →";
+
+    }
+
+});
+
+
+// UPDATE STATISTICS
+
+function updateStatistics() {
+
+    document.getElementById("totalCount").textContent =
+        complaints.length;
+
+    document.getElementById("pendingCount").textContent =
+        complaints.filter(c => c.status === "Pending").length;
+
+    document.getElementById("progressCount").textContent =
+        complaints.filter(c => c.status === "In Progress").length;
+
+    document.getElementById("resolvedCount").textContent =
+        complaints.filter(c => c.status === "Resolved").length;
+
+}
+
+
+// CREATE ELEMENT SAFELY
+
+function addText(parent, tag, text, className = "") {
+
+    const element = document.createElement(tag);
+
+    element.textContent = text;
+
+    if (className) {
+        element.className = className;
+    }
+
+    parent.appendChild(element);
+
+    return element;
+
+}
+
+
+// DISPLAY COMPLAINTS
+
+function renderTickets() {
+
+    const list = document.getElementById("ticketList");
+
+    list.replaceChildren();
+
+    const search =
+        document.getElementById("searchInput")
+        .value.toLowerCase().trim();
+
+    const filter =
+        document.getElementById("statusFilter").value;
+
+    const filtered = complaints.filter(c => {
+
+        const matchesSearch =
+            c.id.toLowerCase().includes(search) ||
+            c.location.toLowerCase().includes(search) ||
+            c.category.toLowerCase().includes(search);
+
+        const matchesStatus =
+            filter === "All" || c.status === filter;
+
+        return matchesSearch && matchesStatus;
+
+    });
+
+    if (filtered.length === 0) {
+
+        addText(
+            list,
+            "div",
+            "No complaints found. Submit a new problem to get started.",
+            "empty"
+        );
+
+        return;
+
+    }
+
+    filtered.forEach(complaint => {
+
+        const card = document.createElement("article");
+        card.className = "ticket";
+
+        const top = document.createElement("div");
+        top.className = "ticket-top";
+
+        addText(top, "h3", complaint.category);
+
+        const badge = document.createElement("span");
+        badge.className = "badge " +
+            complaint.status.replace(" ", "-");
+
+        badge.textContent = complaint.status;
+
+        top.appendChild(badge);
+        card.appendChild(top);
+
+        addText(card, "p", "Ticket ID: " + complaint.id);
+        addText(card, "p", "Reported by: " + complaint.name +
+            " (" + complaint.role + ")");
+
+        addText(card, "p", "Location: " + complaint.location);
+        addText(card, "p", "Priority: " + complaint.priority);
+        addText(card, "p", "Description: " + complaint.description);
+        addText(card, "p", "Date: " + complaint.date);
+
+        if (complaint.photo) {
+
+            const img = document.createElement("img");
+
+            img.src = complaint.photo;
+            img.alt = "Uploaded problem photograph";
+
+            card.appendChild(img);
+
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "ticket-actions";
+
+        const statusSelect = document.createElement("select");
+
+        ["Pending", "In Progress", "Resolved"].forEach(status => {
+
+            const option = document.createElement("option");
+
+            option.value = status;
+            option.textContent = status;
+            option.selected = complaint.status === status;
+
+            statusSelect.appendChild(option);
+
+        });
+
+        statusSelect.addEventListener("change", function() {
+
+            const item = complaints.find(
+                c => c.id === complaint.id
+            );
+
+            if (item) {
+                item.status = this.value;
+                saveComplaints();
+                renderTickets();
+                updateStatistics();
+            }
+
+        });
+
+        actions.appendChild(statusSelect);
+
+        const deleteButton = document.createElement("button");
+
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", function() {
+
+            if (!confirm("Delete complaint " + complaint.id + "?")) {
+                return;
+            }
+
+            complaints = complaints.filter(
+                c => c.id !== complaint.id
+            );
+
+            saveComplaints();
+            renderTickets();
+            updateStatistics();
+
+        });
+
+        actions.appendChild(deleteButton);
+
+        card.appendChild(actions);
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+// SEARCH AND FILTER
+
+document.getElementById("searchInput")
+.addEventListener("input", renderTickets);
+
+document.getElementById("statusFilter")
+.addEventListener("change", renderTickets);
+
+
+// INITIALIZE PAGE
+
+renderTickets();
+updateStatistics();
+
+</script>
+
+</body>
+</html>
